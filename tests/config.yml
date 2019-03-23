@@ -1,0 +1,3 @@
+address: '/var/run/clamav/clamd.sock' # Unix socket or IPv4 / IPv6
+port: ~
+socket_length: ~
