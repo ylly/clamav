@@ -1,0 +1,32 @@
+{
+    "name": "ylly/clamav",
+    "description": "A simple PHP library for scanning files with ClamAV",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Queniart",
+            "email": "samuel@ylly.fr"
+        }
+    ],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-sockets": "*",
+        "symfony/yaml": "^2.2 || ^3.0 || ^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0",
+        "mikey179/vfsstream": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "YllyClamavScan\\": "src/",
+            "YllyClamavTest\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
