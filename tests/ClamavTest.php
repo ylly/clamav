@@ -10,20 +10,22 @@
 namespace YllyClamavTest;
 
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use YllyClamavScan\Clamav;
 use YllyClamavScan\Client\SocketClamavClient;
 use YllyClamavScan\Exception\FailedSocketConnectionException;
 use YllyClamavScan\Exception\FileNotFoundException;
+use YllyClamavScan\Response\ScanResponse;
 
 final class ClamavTest extends TestCase
 {
-    protected $path;
 
     protected function setUp()
     {
-        vfsStream::setup();
-        $this->path = vfsStream::url('root/clamav.sock');
+        vfsStream::setup('root', null, [
+            'test.txt' => "Is here"
+        ]);
     }
 
     public function testPingAvailable()
@@ -107,6 +109,58 @@ final class ClamavTest extends TestCase
 
         $clamav = new Clamav($socketClamavProphecy->reveal());
 
-        $clamav->scanPath($this->path);
+        $clamav->scanPath(vfsStream::url('root/bad-test.txt'));
+    }
+
+    public function testScanPathScan()
+    {
+        $socketClamavProphecy = $this->prophesize(SocketClamavClient::class);
+
+        $socketClamavProphecy
+            ->scan(vfsStream::url('root/test.txt'))
+            ->shouldBeCalled(1)
+            ->willReturn('OK')
+        ;
+
+        $this->prophesize(ScanResponse::class);
+
+        $clamav = new Clamav($socketClamavProphecy->reveal());
+
+        $this->assertInstanceOf(ScanResponse::class, $clamav->scanPath(vfsStream::url('root/test.txt')));
+    }
+
+    public function testScanPathContScan()
+    {
+        $socketClamavProphecy = $this->prophesize(SocketClamavClient::class);
+
+        $socketClamavProphecy
+            ->contscan(vfsStream::url('root/test.txt'))
+            ->shouldBeCalled(1)
+            ->willReturn('OK')
+        ;
+
+        $this->prophesize(ScanResponse::class);
+
+        $clamav = new Clamav($socketClamavProphecy->reveal());
+
+        $this->assertInstanceOf(ScanResponse::class, $clamav->scanPath(vfsStream::url('root/test.txt'), false));
+    }
+
+
+    public function testScanPathMultiScan()
+    {
+        $socketClamavProphecy = $this->prophesize(SocketClamavClient::class);
+
+        $socketClamavProphecy
+            ->multiscan(vfsStream::url('root/test.txt'))
+            ->shouldBeCalled(1)
+            ->willReturn('OK')
+        ;
+
+        $this->prophesize(ScanResponse::class);
+
+        $clamav = new Clamav($socketClamavProphecy->reveal());
+
+        $this->assertInstanceOf(ScanResponse::class, $clamav->scanPath(vfsStream::url('root/test.txt'), true, true));
     }
 }

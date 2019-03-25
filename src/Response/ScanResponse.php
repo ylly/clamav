@@ -11,7 +11,7 @@ class ScanResponse
     /**
      * @var int
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @var array
@@ -42,7 +42,7 @@ class ScanResponse
             $this->scan = array_merge($this->scan, $errors);
         }
 
-        if ($this->status == null) {
+        if ($this->status === 0) {
             $this->status = self::CLAMAV_CLEAN;
         }
     }
