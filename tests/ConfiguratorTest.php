@@ -14,10 +14,6 @@ use YllyClamavScan\Clamav;
 use YllyClamavScan\Configurator;
 use YllyClamavScan\Factory\ClamavFactory;
 
-/**
- * @internal
- * @coversNothing
- */
 final class ConfiguratorTest extends TestCase
 {
     public function testConfigureFromArray()

@@ -16,10 +16,6 @@ use YllyClamavScan\Client\SocketClamavClient;
 use YllyClamavScan\Exception\FailedSocketConnectionException;
 use YllyClamavScan\Exception\FileNotFoundException;
 
-/**
- * @internal
- * @coversNothing
- */
 final class ClamavTest extends TestCase
 {
     protected $path;

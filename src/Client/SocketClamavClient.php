@@ -22,6 +22,11 @@ class SocketClamavClient implements ClamavClientInterface
 
     private $socketLength;
 
+    /**
+     * @param string $address
+     * @param int    $port
+     * @param int    $socketLength
+     */
     public function __construct($address, $port, $socketLength)
     {
         $this->address = $address;
@@ -29,46 +34,89 @@ class SocketClamavClient implements ClamavClientInterface
         $this->socketLength = null !== $socketLength ? $socketLength : self::SOCKET_LENGTH;
     }
 
+    /**
+     * @throws FailedSocketConnectionException
+     *
+     * @return string
+     */
     public function ping()
     {
         return $this->send('PING');
     }
 
+    /**
+     * @throws FailedSocketConnectionException
+     *
+     * @return string
+     */
     public function version()
     {
         return $this->send('VERSION');
     }
 
+    /**
+     * @param string $path
+     *
+     * @throws FailedSocketConnectionException
+     *
+     * @return string
+     */
     public function scan($path)
     {
         return $this->send("SCAN {$path}");
     }
 
+    /**
+     * @param string $path
+     *
+     * @throws FailedSocketConnectionException
+     *
+     * @return string
+     */
     public function contscan($path)
     {
         return $this->send("CONTSCAN {$path}");
     }
 
+    /**
+     * @param string $path
+     *
+     * @throws FailedSocketConnectionException
+     *
+     * @return string
+     */
     public function multiscan($path)
     {
         return $this->send("MULTISCAN {$path}");
     }
 
+    /**
+     * @throws \Exception
+     */
     public function instream()
     {
         throw new \Exception('Not implement yet');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function fildes()
     {
         throw new \Exception('Not implement yet');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function stats()
     {
         throw new \Exception('Not implement yet');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function versioncommands()
     {
         throw new \Exception('Not implement yet');

@@ -12,17 +12,10 @@ namespace YllyClamavTest;
 use PHPUnit\Framework\TestCase;
 use YllyClamavScan\Client\SocketClamavClient;
 
-/**
- * @internal
- * @coversNothing
- */
 final class SocketClamavClientTest extends TestCase
 {
     /**
      * @dataProvider addressProvider
-     *
-     * @param mixed $excepted
-     * @param mixed $address
      */
     public function testSocketType($excepted, $address)
     {

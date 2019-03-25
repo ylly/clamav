@@ -26,6 +26,9 @@ class Clamav
         $this->client = $client;
     }
 
+    /**
+     * @return bool
+     */
     public function isAvailable()
     {
         try {
