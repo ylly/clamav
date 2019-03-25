@@ -12,13 +12,10 @@ namespace YllyClamavScan;
 use YllyClamavScan\Client\ClamavClientInterface;
 use YllyClamavScan\Exception\FailedSocketConnectionException;
 use YllyClamavScan\Exception\FileNotFoundException;
+use YllyClamavScan\Response\ScanResponse;
 
 class Clamav
 {
-    const CLAMAV_INFECT = 0;
-    const CLAMAV_CLEAN = 1;
-    const CLAMAV_UNCHECK = 2;
-
     private $client;
 
     public function __construct(ClamavClientInterface $client)
@@ -55,7 +52,7 @@ class Clamav
      *
      * @throws FileNotFoundException
      *
-     * @return array
+     * @return ScanResponse
      */
     public function scanPath($path, $block = true, $multithread = false)
     {
@@ -71,30 +68,10 @@ class Clamav
             $scan = $this->client->scan($path);
         } elseif (false === $block && false === $multithread) {
             $scan = $this->client->contscan($path);
-        } elseif (true === $block && true === $multithread) {
+        } else {
             $scan = $this->client->multiscan($path);
         }
 
-        if (preg_match_all('/.* FOUND/', $scan, $founds) > 0) {
-            return [
-                'status' => self::CLAMAV_INFECT,
-                'scan' => $founds,
-                'original' => $scan,
-            ];
-        }
-
-        if (preg_match_all('/.* ERROR/', $scan, $errors) > 0) {
-            return [
-                'status' => self::CLAMAV_UNCHECK,
-                'scan' => $errors,
-                'original' => $scan,
-            ];
-        }
-
-        return  [
-            'status' => self::CLAMAV_CLEAN,
-            'scan' => [],
-            'original' => $scan,
-        ];
+        return new ScanResponse($scan);
     }
 }

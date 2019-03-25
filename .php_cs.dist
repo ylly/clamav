@@ -8,7 +8,7 @@ $finder = PhpCsFixer\Finder::create()
 $config = PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
-    	'@PSR2' => true,
+        '@PSR2' => true,
         '@PHP56Migration' => true,
         '@PHPUnit60Migration:risky' => true,
         '@PhpCsFixer' => true,

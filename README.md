@@ -45,20 +45,19 @@ Note : if clamav is unavailable, the function throw an `FailedSocketConnectionEx
 $result = $clamav->scanPath($path);
 ```
 
-`$result` is an array with this structure : 
+`$result` is instance of ScanResponse
 
-```
-[
-	'status' => CLAMAV_INFECT|CLAMAV_ERROR|CLAMAV_CLEAN, 
-	'scan' => [], # array matches with INFECTED or ERROR
-	'original' => 'result of scan', # original string of scan
-]
-```
-
-Status piority : 
+Status combine with binary or ( | ) : 
 1. `Clamav::CLAMAV_INFECT`
 2. `Clamav::CLAMAV_ERROR`
 3. `Clamav::CLAMAV_CLEAN`
+
+Use helper for check status
+* `isInfected()`
+* `isUnckeck()`
+* `isClean()`
+* `hasSomeProblems()`
+
 
 Note : if clamav is unavailable, the function throw an `FailedSocketConnectionException`
 
