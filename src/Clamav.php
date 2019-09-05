@@ -11,6 +11,7 @@ namespace YllyClamavScan;
 
 use YllyClamavScan\Client\ClamavClientInterface;
 use YllyClamavScan\Exception\FailedSocketConnectionException;
+use YllyClamavScan\Exception\FailedSocketExtensionException;
 use YllyClamavScan\Exception\FileNotFoundException;
 use YllyClamavScan\Response\ScanResponse;
 
@@ -30,7 +31,9 @@ class Clamav
     {
         try {
             $ping = $this->client->ping();
-        } catch (FailedSocketConnectionException $e) {
+        } catch (FailedSocketConnectionException $connection) {
+            return false;
+        } catch (FailedSocketExtensionException $extension) {
             return false;
         }
 

@@ -10,6 +10,7 @@
 namespace YllyClamavScan\Client;
 
 use YllyClamavScan\Exception\FailedSocketConnectionException;
+use YllyClamavScan\Exception\FailedSocketExtensionException;
 
 class SocketClamavClient implements ClamavClientInterface
 {
@@ -131,6 +132,10 @@ class SocketClamavClient implements ClamavClientInterface
      */
     private function send($command)
     {
+        if (!function_exists('socket_create')) {
+            throw new FailedSocketExtensionException();
+        }
+
         $socket = socket_create($this->getSocketType(), SOCK_STREAM, 0);
 
         if (!@socket_connect($socket, $this->address, $this->port)) {
