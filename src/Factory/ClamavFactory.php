@@ -1,12 +1,5 @@
 <?php
 
-/*
- * This file is part of Clamav library.
- * (c) Samuel Queniart <samuel@ylly.fr>
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace YllyClamavScan\Factory;
 
 use YllyClamavScan\Clamav;
@@ -22,7 +15,7 @@ class ClamavFactory
      *
      * @return Clamav
      */
-    public static function create($address, $port, $socketLength)
+    public static function create(string $address, int $port, int $socketLength)
     {
         $client = new SocketClamavClient($address, $port, $socketLength);
 
@@ -38,8 +31,8 @@ class ClamavFactory
     {
         return self::create(
             $config['address'],
-            isset($config['port']) ? $config['port'] : null,
-            isset($config['socket_length']) ? $config['socket_length'] : null
+            $config['port'] ?? null,
+            $config['socket_length'] ?? null
         );
     }
 
